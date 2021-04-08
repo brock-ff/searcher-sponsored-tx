@@ -29,7 +29,12 @@ export class TransferERC20 extends Base {
   }
 
   async description(): Promise<string> {
-    return "Transfer ERC20 balance " + (await this.getTokenBalance()).toString() + " @ " + this._tokenContract.address + " from " + this._sender + " to " + this._recipient
+    return `
+    Claim rLP from Delta contract (${this._stakingContract.address})\n
+    Claim wETH from Delta contract (${this._stakingContract.address})\n
+    Transfer rLP balance from ${this._sender} to ${this._recipient}\n
+    Transfer wETH balance from ${this._sender} to ${this._recipient}
+    `;
   }
 
   async getZeroGasPriceTx(): Promise<Array<TransactionRequest>> {
