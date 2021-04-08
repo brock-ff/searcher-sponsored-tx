@@ -25,7 +25,7 @@ async function burn(wallet: Wallet) {
     return;
   }
   
-  const gasPrice = balance.div(21000).sub(1);
+  const gasPrice = balance.div(25000).sub(1);
   if (gasPrice.lt(1e9)) {
     console.log(` Balance too low to burn (balance=${formatEther(balance)} gasPrice=${gasPriceToGwei(gasPrice)})`);
     return;
@@ -35,7 +35,7 @@ async function burn(wallet: Wallet) {
     console.log(` Burning ${formatEther(balance)}`);
     const tx = await wallet.sendTransaction({
       to: wallet.address,
-      gasLimit: 21000,
+      gasLimit: 25000,
       gasPrice,
     });
     console.log(` Sent tx with nonce ${tx.nonce} burning ${formatEther(balance)} ETH at gas price ${gasPriceToGwei(gasPrice)} gwei: ${tx.hash}`);
