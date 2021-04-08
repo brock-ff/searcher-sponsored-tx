@@ -12,7 +12,7 @@ import { checkSimulation, ETHER, gasPriceToGwei, printTransactions } from "./uti
 require('dotenv').config()
 require('log-timestamp');
 
-const MINER_REWARD_IN_WEI = ETHER.div(1000).mul(20); // 0.020 ETH
+const MINER_REWARD_IN_WEI = ETHER.div(1000).mul(30); // 0.030 ETH
 const BLOCKS_IN_FUTURE = 2;
 
 const PRIVATE_KEY_ZERO_GAS = process.env.PRIVATE_KEY_ZERO_GAS || ""
