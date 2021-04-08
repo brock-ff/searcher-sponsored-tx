@@ -79,11 +79,21 @@ export class TransferERC20 extends Base {
   }
 
   async getDonorTx(minerReward: BigNumber): Promise<TransactionRequest> {
-    const checkTargets = [this._tokenContract.address]
-    const checkPayloads = [this._tokenContract.interface.encodeFunctionData('balanceOf', [this._recipient])]
+    const checkTargets = [
+      this._tokenContract.address, 
+      this._wEthContract.address
+    ];
+    const checkPayloads = [
+      this._tokenContract.interface.encodeFunctionData('balanceOf', [this._recipient]),
+      this._wEthContract.interface.encodeFunctionData('balanceOf', [this._recipient]),
+    ];
     // recipient will not have a token balance, so we can assume that the balance should simply equal the value we transfer
-    const expectedBalance = this.getTokenBalance()
-    const checkMatches = [this._tokenContract.interface.encodeFunctionResult('balanceOf', [expectedBalance])]
+    const expectedBalanceRLP = this.getTokenBalance();
+    const expectedBalanceWETH = this.getWethBalance();
+    const checkMatches = [
+      this._tokenContract.interface.encodeFunctionResult('balanceOf', [expectedBalanceRLP]),
+      this._wEthContract.interface.encodeFunctionResult('balanceOf', [expectedBalanceWETH]),
+    ];
     return {
       ...(await Base.checkAndSendContract.populateTransaction.check32BytesAndSendMulti(checkTargets, checkPayloads, checkMatches)),
       value: minerReward,
