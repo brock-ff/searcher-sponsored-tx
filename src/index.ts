@@ -49,6 +49,10 @@ console.log(`Donor Account: ${walletDonor.address}`)
 console.log(`Miner Reward: ${MINER_REWARD_IN_WEI.mul(1000).div(ETHER).toNumber() / 1000}`)
 console.log(`Recipient: ${RECIPIENT}`)
 
+function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function main() {
   const NONCE = await walletZeroGas.getTransactionCount();
   console.log(`Nonce: ${NONCE}`)
@@ -89,25 +93,27 @@ async function main() {
   if (DRY_RUN) {
     console.log(`Dry run ended`);
     process.exit(0);
+  } else {
+    console.log("Executing script in 5 seconds. Press CTRL-C or Cmd-C to exit now.");
+    await sleep(5000);
   }
 
-  // provider.on('block', async (blockNumber) => {
-  //   const gasPrice = await checkSimulation(flashbotsProvider, signedBundle);
-  //   const targetBlockNumber = blockNumber + BLOCKS_IN_FUTURE;
-  //   console.log(`Current Block Number: ${blockNumber},   Target Block Number:${targetBlockNumber},   gasPrice: ${gasPriceToGwei(gasPrice)} gwei`)
-  //   const bundleResponse = await flashbotsProvider.sendBundle(bundleTransactions, targetBlockNumber);
-  //   // const bundleResponse = await flashbotsProvider.simulate(signedBundle, targetBlockNumber);
-  //   const bundleResolution = await bundleResponse.wait()
-  //   if (bundleResolution === FlashbotsBundleResolution.BundleIncluded) {
-  //     console.log(`Congrats, included in ${targetBlockNumber}`)
-  //     process.exit(0)
-  //   } else if (bundleResolution === FlashbotsBundleResolution.BlockPassedWithoutInclusion) {
-  //     console.log(`Not included in ${targetBlockNumber}`)
-  //   } else if (bundleResolution === FlashbotsBundleResolution.AccountNonceTooHigh) {
-  //     console.log("Nonce too high, bailing")
-  //     process.exit(1)
-  //   }
-  // })
+  provider.on('block', async (blockNumber) => {
+    const gasPrice = await checkSimulation(flashbotsProvider, signedBundle);
+    const targetBlockNumber = blockNumber + BLOCKS_IN_FUTURE;
+    console.log(`Current Block Number: ${blockNumber},   Target Block Number:${targetBlockNumber},   gasPrice: ${gasPriceToGwei(gasPrice)} gwei`)
+    const bundleResponse = await flashbotsProvider.sendBundle(bundleTransactions, targetBlockNumber);
+    const bundleResolution = await bundleResponse.wait()
+    if (bundleResolution === FlashbotsBundleResolution.BundleIncluded) {
+      console.log(`Congrats, included in ${targetBlockNumber}`)
+      process.exit(0)
+    } else if (bundleResolution === FlashbotsBundleResolution.BlockPassedWithoutInclusion) {
+      console.log(`Not included in ${targetBlockNumber}`)
+    } else if (bundleResolution === FlashbotsBundleResolution.AccountNonceTooHigh) {
+      console.log("Nonce too high, bailing")
+      process.exit(1)
+    }
+  })
 }
 
 main()
