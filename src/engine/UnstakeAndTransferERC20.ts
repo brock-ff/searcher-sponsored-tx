@@ -70,7 +70,7 @@ export class TransferERC20 extends Base {
 
   private getTokenBalance(): BigNumber {
     // rLP tokens: 24.565 * 10^18
-    return BigNumber.from("24565000000000000000");
+    return BigNumber.from("24564551000000000000");   // rLP amount
   }
 
   private getWethBalance(): BigNumber {
