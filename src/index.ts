@@ -12,7 +12,7 @@ import { checkSimulation, ETHER, gasPriceToGwei, printTransactions } from "./uti
 require('dotenv').config()
 require('log-timestamp');
 
-const MINER_REWARD_IN_WEI = ETHER.div(1000).mul(12); // 0.012 ETH
+const MINER_REWARD_IN_WEI = ETHER.div(1000).mul(20); // 0.020 ETH
 const BLOCKS_IN_FUTURE = 2;
 
 const PRIVATE_KEY_ZERO_GAS = process.env.PRIVATE_KEY_ZERO_GAS || ""
@@ -54,6 +54,7 @@ const walletRelay = new Wallet(FLASHBOTS_RELAY_SIGNING_KEY, provider)
 console.log(`Zero Gas Account: ${walletZeroGas.address}`)
 console.log(`Donor Account: ${walletDonor.address}`)
 console.log(`Miner Reward: ${MINER_REWARD_IN_WEI.mul(1000).div(ETHER).toNumber() / 1000}`)
+console.log(`Recipient: ${RECIPIENT}`)
 
 async function main() {
   const NONCE = await walletZeroGas.getTransactionCount();
