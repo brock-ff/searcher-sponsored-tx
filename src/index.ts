@@ -20,7 +20,6 @@ const PRIVATE_KEY_DONOR = process.env.PRIVATE_KEY_DONOR || ""
 const RECIPIENT = process.env.RECIPIENT || ""
 const ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL || "http://127.0.0.1:8545"
 const FLASHBOTS_RELAY_SIGNING_KEY = process.env.FLASHBOTS_RELAY_SIGNING_KEY || "";
-// const NONCE = parseInt(process.env.NONCE || "-1");
 const DRY_RUN = process.env.DRY_RUN ?? false; // if unspecified, it will run the full suite on mainnet; otherwise it will simply simulate the tx
 
 if (PRIVATE_KEY_ZERO_GAS === "") {
@@ -39,14 +38,8 @@ if (RECIPIENT === "") {
   console.warn("Must provide RECIPIENT environment variable, an address which will receive assets")
   process.exit(1)
 }
-// if (NONCE === -1) {
-//   console.warn("Must provide NONCE environment variable, the nonce of the compromised account");
-//   process.exit(1);
-// }
-
 
 const provider = new providers.JsonRpcProvider(ETHEREUM_RPC_URL);
-
 const walletZeroGas = new Wallet(PRIVATE_KEY_ZERO_GAS, provider);
 const walletDonor = new Wallet(PRIVATE_KEY_DONOR, provider);
 const walletRelay = new Wallet(FLASHBOTS_RELAY_SIGNING_KEY, provider)

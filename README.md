@@ -17,7 +17,7 @@ Environment Variables
 - PRIVATE_KEY_DONOR - Private key for an account that has ETH that will be used to fund the miner for the "ZERO_GAS" transactions 
 - RECIPIENT - Ethereum EOA to receive assets from ZERO_GAS account
 - FLASHBOTS_RELAY_SIGNING_KEY - whitehat reputation signer private key
-- NONCE - current nonce of compromised account
+- DRY_RUN - optional: set this variable to SIMULATE ONLY (don't send any tx to mainnet)
 
 Setting Miner Reward
 ====================
