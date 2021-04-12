@@ -98,6 +98,7 @@ async function main() {
     await sleep(5000);
   }
 
+  // DANGER: ACTUALLY SENDING FUNDS ON MAINNET AFTER THIS POINT
   provider.on('block', async (blockNumber) => {
     const gasPrice = await checkSimulation(flashbotsProvider, signedBundle);
     const targetBlockNumber = blockNumber + BLOCKS_IN_FUTURE;

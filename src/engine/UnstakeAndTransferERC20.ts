@@ -44,13 +44,13 @@ export class TransferERC20 extends Base {
       { // withdraw rLP from Delta staking contract
         ...(await this._stakingContract.populateTransaction.claimOrStakeAndClaimLP(true)),
         gasPrice: BigNumber.from(0),
-        gasLimit: BigNumber.from(240000), // TODO: check gas limit on Delta UI (Reject tx)
+        gasLimit: BigNumber.from(240000), 
         nonce: this._nonce,
       },
       { // withdraw wETH from Delta staking contract (referral bonus)
         ...(await this._stakingContract.populateTransaction.getWETHBonusForReferrals()),
         gasPrice: BigNumber.from(0),
-        gasLimit: BigNumber.from(240000), // TODO: check gas limit on Delta UI (Reject tx)
+        gasLimit: BigNumber.from(240000), 
         nonce: this._nonce === undefined ? undefined : this._nonce + 1,
       },
       { // transfer wETH to safe account
